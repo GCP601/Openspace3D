@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -324,4 +325,332 @@
         });
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial de Realidade Aumentada - OpenSpace3D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .step-indicator { transition: all 0.3s ease; }
+        .step-indicator.active { background-color: #2563EB; color: white; font-weight: 700; transform: scale(1.1); }
+        .step-indicator.completed { background-color: #DBEAFE; color: #1D4ED8; }
+        .step-indicator.todo { background-color: #E5E7EB; color: #4B5563; }
+        .container-reduzido { max-width: 86rem !important; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8">
+    <main class="w-full mx-auto container-reduzido">
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <header class="p-6 sm:p-8 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Tutorial de Realidade Aumentada</h1>
+                        <p class="text-base sm:text-lg text-gray-600 mt-1">Criando seu primeiro projeto com OpenSpace3D</p>
+                    </div>
+                    <span class="text-sm font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">SENAI</span>
+                </div>
+            </header>
+
+            <nav class="p-4 sm:p-6 border-b border-gray-200">
+                <h2 class="text-sm font-semibold text-gray-500 mb-3 text-center sm:text-left">ETAPAS DO PROJETO</h2>
+                <div id="step-indicator-container" class="flex flex-wrap justify-center sm:justify-start gap-2"></div>
+            </nav>
+
+            <div class="p-6 sm:p-8">
+                <div class="aspect-w-16 aspect-h-9 mb-6 rounded-lg overflow-hidden bg-gray-200">
+                    <img id="step-image" src="" alt="" class="w-full h-full object-cover transition-opacity duration-300">
+                </div>
+                <div>
+                    <h2 id="step-title" class="text-xl sm:text-2xl font-semibold text-gray-900">Carregando...</h2>
+                    <p id="step-description" class="text-base text-gray-700 mt-3 leading-relaxed">Carregando descrição da etapa...</p>
+                </div>
+            </div>
+
+            <footer class="flex justify-between items-center p-6 bg-gray-50 border-t border-gray-200">
+                <button id="prev-button" class="nav-button bg-gray-300 text-gray-700 py-2 px-6 rounded-lg hover:bg-gray-400 transition font-medium">Anterior</button>
+                <button id="next-button" class="nav-button bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition font-medium">Próximo</button>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        const steps = [
+            {
+                title: "SENAI",
+                description: "Departamento Regional de São Paulo",
+                image: "imagens/imagem0.jpg"
+            },
+            {
+                title: "Realidade Aumentada",
+                description: "Introdução ao conceito de Realidade Aumentada",
+                image: "imagens/imagem01.jpg"
+            },
+            {
+                title: "SENAI - Prof. Luciano Trevisan",
+                description: "Apresentação do professor responsável pelo tutorial",
+                image: "imagens/imagem79.JPG"
+            },
+            {
+                title: "Software - Editor 3D",
+                description: "OpenSpace3D - Editor para Realidade Aumentada<br>Site: https://www.openspace3d.com/",
+                image: "imagens/imagem03.jpg"
+            },
+            {
+                title: "Interface do OpenSpace3D",
+                description: "Conhecendo a interface: cena ou palco com três ambientes representados por nós (Cinemática, Câmera e Luz)",
+                image: "imagens/imagem1.png"
+            },
+            {
+                title: "Importando uma Cena",
+                description: "OpenSpace3D Editor: 1.87.0<br>Formatos suportados: Formatos padrão (3D, dae, obj, fbx, scene), Biblioteca OpenSpace3D, Projeto OpenSpace3D, Modelo dinâmico",
+                image: "imagens/imagem2.jpg"
+            },
+            {
+                title: "Seleção do Formato",
+                description: "Importação de cena - Selecionar formato de arquivo padrão (3D_dae, obj_flox, scene...) e clicar em Próxima<br>Caminho: C:\\Program Files\\Scol Voyager\\Partition_LockedApp\\assets\\models\\library",
+                image: "imagens/imagem3.jpg"
+            },
+            {
+                title: "Acessando Pasta de Modelos",
+                description: "Navegando para a pasta: Kingdom_Animalia\\Rabbit",
+                image: "imagens/imagem4.jpg"
+            },
+            {
+                title: "Selecionando Modelo Coelho",
+                description: "Após selecionar o modelo coelho, clique em abrir",
+                image: "imagens/imagem2222.png"
+            },
+            {
+                title: "Pastas de Recursos",
+                description: "Importação da cena: Selecionar pastas de recursos para assets/models/library/Kingdom_Animalia/Rabbit/Coelho.mesh (bitmaps, shaders, programa, esqueleto...)",
+                image: "imagens/imagem06.jpg"
+            },
+            {
+                title: "Arquivos de Programa e Material",
+                description: "Selecionar arquivos de programa e material para coelho.mesh<br>Adicionar script ou remover script conforme necessário<br>Clicar em Importação",
+                image: "imagens/imagem07.jpg"
+            },
+            {
+                title: "Cena Importada",
+                description: "Foi inserido a cena coelho e também visualizamos o objeto coelho",
+                image: "imagens/imagem08.jpg"
+            },
+            {
+                title: "Estrutura da Cena",
+                description: "Estrutura de cena com:<br>- Cinematica<br>- default_camera<br>- default_light<br>- Coelho #1<br>- Estrutura do esqueleto com movimentos",
+                image: "imagens/imagem09.jpg"
+            },
+            {
+                title: "Ativando Loop de Animação",
+                description: "Clique com o botão direito no skeletal para ativar o loop de repetição dos movimentos do objeto<br>Laço habilitado - movimento executa continuamente",
+                image: "imagens/imagem10.jpg"
+            },
+            {
+                title: "Menu de Contexto - Scene",
+                description: "Clique com o botão direito em Scene para acessar opções:<br>- Adicionar um nó<br>- Adicionar objetos, câmeras, luzes<br>- Configurações de render",
+                image: "imagens/imagem11.jpg"
+            },
+            {
+                title: "Criando Novo Nó",
+                description: "Janela para criação de novo nó<br>Nome: dummy<br>Clicar em OK para confirmar",
+                image: "imagens/imagem12.jpg"
+            },
+            {
+                title: "Estrutura com Dummy",
+                description: "Estrutura de cena atualizada com dummy #3<br>Agora vamos mover o coelho para dentro do dummy",
+                image: "imagens/imagem13.jpg"
+            },
+            {
+                title: "Confirmando Movimento",
+                description: "Atenção: Tem certeza que quer passar 1.Coelho como o filho de 3.dummy?<br>Clicar em OK para confirmar",
+                image: "imagens/imagem17.jpg"
+            },
+            {
+                title: "Aba Scene - Programação Visual",
+                description: "Agora clique duas vezes no objeto Scene para acessar a área de programação visual",
+                image: "imagens/imagem14.jpg"
+            },
+            {
+                title: "Menu de Plugins - AR Capture",
+                description: "Clique com botão direito do mouse e vamos inserir um AR capture dentro Scene<br>Navegar em Dispositivo > AR capture",
+                image: "imagens/imagem201.jpg"
+            },
+            {
+                title: "Configurações AR Capture",
+                description: "Edit AR capture:<br>- Índice dispositivo: 0<br>- Resolução da webcam: 540x480<br>- Desmarcar Modo espelho<br>- Clicar em Aplicar e OK",
+                image: "imagens/imagem210.jpg"
+            },
+            {
+                title: "Teste Inicial",
+                description: "Agora testar, clicando no botão Play (indicado em vermelho)",
+                image: "imagens/imagem21.jpg"
+            },
+            {
+                title: "Resultado do Teste",
+                description: "Como resposta do teste, podemos ver o coelho junto com a projeção da WebCam",
+                image: "imagens/imagem22.jpg"
+            },
+            {
+                title: "Adicionando AR Marker",
+                description: "Agora vamos adicionar um marcador AR marker<br>Navegar em Dispositivo > AR marker",
+                image: "imagens/imagem23.jpg"
+            },
+            {
+                title: "Configurações AR Marker",
+                description: "Edit AR marker:<br>- Marcador ID: 0<br>- Registrar marcador<br>- Configurar objeto associado",
+                image: "imagens/imagem24.jpg"
+            },
+            {
+                title: "Registro do Marcador",
+                description: "Após escolha do ID, clique em Registre-se e salve o seu marcador",
+                image: "imagens/imagem25.jpg"
+            },
+            {
+                title: "Configurações Avançadas Marker",
+                description: "Importante deixar ativo na inicialização:<br>- Ativar na inicialização<br>- Habilitar rastreamento marcador na inicialização",
+                image: "imagens/imagem26.jpg"
+            },
+            {
+                title: "Associando com Dummy",
+                description: "Configurar AR marker com dummy:<br>- Nome do l'objeto: 3.dummy<br>- Marcar opções de inicialização<br>- Clicar em Aplicar e OK",
+                image: "imagens/imagem27.jpg"
+            },
+            {
+                title: "Preparando Marcador para Impressão",
+                description: "Vamos utilizar o Word para preparar o nosso marcador para a impressão. Inserir o marcador no local que salvamos no registro do marcador.",
+                image: "imagens/imagem28.jpg"
+            },
+            {
+                title: "Adicionando Objeto Hide",
+                description: "Agora vamos inserir um Objeto – Hide para visualização através do nosso marcador<br>Navegar em Objetos > Hide",
+                image: "imagens/imagem29.jpg"
+            },
+            {
+                title: "Configurações Hide",
+                description: "Edit hide:<br>- Nome de origem: 3.dummy<br>- Marcar 'Esconder na inicialização'<br>- Clicar em Aplicar e OK",
+                image: "imagens/imagem30.png"
+            },
+            {
+                title: "Programação Visual - Found",
+                description: "Passo 1 - Clique botão direito no AR marker, selecione Found<br>Passo 2 - Ligar com objeto Hide selecionando Show",
+                image: "imagens/imagem31.jpg"
+            },
+            {
+                title: "Programação Visual - Lost",
+                description: "Passo 1 - Clique botão direito no AR marker, selecione Lost<br>Passo 2 - Ligar com objeto Hide selecionando Hide",
+                image: "imagens/imagem321.jpg"
+            },
+            {
+                title: "Teste Final",
+                description: "Agora testar, clicando no botão Play novamente",
+                image: "imagens/imagem322.jpg"
+            },
+            {
+                title: "Resultado da Programação",
+                description: "Após programado os eventos, inicie a câmera e o coelho não é exibido na tela",
+                image: "imagens/imagem323.jpg"
+            },
+            {
+                title: "Teste com Marcador",
+                description: "Agora aponte o marcador e conseguimos visualizar o coelho",
+                image: "imagens/imagem324.jpg"
+            },
+            {
+                title: "Ajuste de Escala",
+                description: "Ajustando a escala de visualização do coelho em 30%<br>Acessar: Botão direito no dummy > Ajuste de escala",
+                image: "imagens/imagem325.jpg"
+            },
+            {
+                title: "Resultado do Ajuste",
+                description: "Tamanho do objeto após o ajuste de escala",
+                image: "imagens/imagem326.jpg"
+            },
+            {
+                title: "Configurações do Projeto",
+                description: "Configurações do projeto:<br>- Nome: Coelho<br>- Versão: 1.000<br>- Idioma: portuguese-Brazil<br>- Configurações de tela",
+                image: "imagens/imagem327.jpg"
+            },
+            {
+                title: "Salvando o Projeto",
+                description: "Salvar projeto (Ctrl + S)<br>Escolher ou criar uma pasta para salvar o projeto",
+                image: "imagens/imagem328.jpg"
+            },
+            {
+                title: "Exportando o Projeto",
+                description: "Exportar para o player OpenSpace3D (Ctrl + E)<br>Opções: Windows, Linux, Raspberry Pi, MacOS, Android, iOS, Oculus Mobile<br>Sempre exportar o pacote de projeto OpenSpace3D",
+                image: "imagens/imagem329.jpg"
+            },
+            {
+                title: "Tipos de Exportação",
+                description: "Tipos de exportação suportados pelo OpenSpace3D",
+                image: "imagens/imagem329.jpg"
+            },
+            {
+                title: "Departamento Regional SP",
+                description: "DEPARTAMENTO REGIONAL: DE SÃO PAULO<br>www.sp.senai.br",
+                image: "imagens/imagem330.jpg"
+            }
+        ];
+
+        let currentStep = 0;
+        const stepIndicatorContainer = document.getElementById('step-indicator-container');
+        const stepImage = document.getElementById('step-image');
+        const stepTitle = document.getElementById('step-title');
+        const stepDescription = document.getElementById('step-description');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        function createStepIndicators() {
+            steps.forEach((step, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'step-indicator w-8 h-8 flex items-center justify-center rounded-full font-medium cursor-pointer text-sm';
+                indicator.textContent = index + 1;
+                indicator.addEventListener('click', () => updateStep(index));
+                stepIndicatorContainer.appendChild(indicator);
+            });
+        }
+
+        function updateStep(stepIndex) {
+            currentStep = stepIndex;
+            const step = steps[stepIndex];
+            
+            stepImage.style.opacity = 0;
+            setTimeout(() => {
+                stepImage.src = step.image;
+                stepImage.alt = step.title;
+                stepImage.style.opacity = 1;
+            }, 200);
+            
+            stepTitle.textContent = `Slide ${stepIndex + 1}: ${step.title}`;
+            stepDescription.innerHTML = step.description;
+
+            prevButton.disabled = stepIndex === 0;
+            nextButton.disabled = stepIndex === (steps.length - 1);
+
+            Array.from(stepIndicatorContainer.children).forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed', 'todo');
+                if (index < stepIndex) indicator.classList.add('completed');
+                else if (index === stepIndex) indicator.classList.add('active');
+                else indicator.classList.add('todo');
+            });
+        }
+
+        prevButton.addEventListener('click', () => currentStep > 0 && updateStep(currentStep - 1));
+        nextButton.addEventListener('click', () => currentStep < steps.length - 1 && updateStep(currentStep + 1));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStepIndicators();
+            updateStep(0);
+        });
+    </script>
+</body>
+>>>>>>> cbd03bbed3b381a48e09dfcf03b39a352afb037c
 </html>
