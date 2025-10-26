@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechDay - Senai São Carlos - Realidade Aumentada</title>
+    <title>Tutorial de Realidade Aumentada - OpenSpace3D</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0EA5E9;  /* Azul Sky */
-            --primary-dark: #0284C7; /* Azul mais escuro */
-            --secondary: #10B981; /* Verde */
-            --accent: #F59E0B;   /* Âmbar */
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --secondary: #10B981;
             --dark: #1F2937;
             --light: #F8FAFC;
-            --gradient: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%); /* Azul para Verde */
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         body { 
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
         
@@ -62,10 +61,10 @@
         }
         
         .step-sidebar-item.active { 
-            background: linear-gradient(135deg, #F0F9FF, #E0F2FE);
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
             border-left-color: var(--primary);
             transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
         }
         
         .step-sidebar-item.completed { 
@@ -80,7 +79,7 @@
         
         .step-sidebar-item:hover {
             transform: translateX(2px);
-            background: rgba(14, 165, 233, 0.05);
+            background: rgba(99, 102, 241, 0.05);
         }
         
         .progress-bar {
@@ -101,19 +100,6 @@
             overflow: hidden;
             border-radius: 16px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f8fafc;
-            min-height: 400px;
-        }
-        
-        .step-image {
-            max-width: 100%;
-            max-height: 400px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
         }
         
         .image-container::before {
@@ -123,7 +109,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.1));
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
             z-index: 1;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -150,12 +136,12 @@
             padding: 12px 24px;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 8px 15px rgba(99, 102, 241, 0.4);
         }
         
         .btn-secondary {
@@ -187,9 +173,9 @@
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
         
         .fade-in {
@@ -200,75 +186,38 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .techday-header {
-            background: linear-gradient(135deg, #0369A1 0%, #0D9488 50%, #059669 100%);
-            color: white;
-            padding: 1rem 0;
-        }
-        
-        .techday-badge {
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            color: white;
-            border-radius: 8px;
-            padding: 4px 12px;
-            font-weight: 700;
-            font-size: 0.875rem;
-        }
-        
-        .senai-blue {
-            background: linear-gradient(135deg, #1E40AF, #1D4ED8);
-            color: white;
-        }
     </style>
 </head>
 <body class="min-h-screen p-0">
-    <!-- TechDay Header -->
-    <div class="techday-header">
-        <div class="max-w-7xl mx-auto px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="text-center md:text-left mb-4 md:mb-0">
-                    <h1 class="text-2xl md:text-3xl font-bold">TechDay 2025</h1>
-                    <p class="text-blue-100 mt-1">Senai São Carlos - Inovação e Tecnologia</p>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <span class="techday-badge">Evento Oficial</span>
-                    <span class="senai-blue px-4 py-2 rounded-full font-semibold text-sm">SENAI</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Header -->
-    <header class="w-full py-4 px-8 glass-effect">
+    <header class="w-full py-6 px-8 glass-effect">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <div class="w-10 h-10 bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-gray-900">Tutorial de Realidade Aumentada</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">Tutorial de Realidade Aumentada</h1>
                     <p class="text-gray-600">Criando seu primeiro projeto com OpenSpace3D</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="text-sm text-gray-600">Professor</p>
-                <p class="font-semibold text-gray-900">Luciano Trevisan</p>
+            <div class="flex items-center space-x-4">
+                <span class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-full font-semibold text-sm pulse-animation">SENAI</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="w-full max-w-7xl mx-auto py-6 px-4">
+    <main class="w-full max-w-7xl mx-auto py-8 px-4">
         <div class="floating-card overflow-hidden">
             <div class="flex flex-col lg:flex-row h-full">
                 <!-- Menu Lateral -->
                 <div class="w-full lg:w-2/5 xl:w-1/3 bg-gradient-to-b from-gray-50 to-white p-6 border-r border-gray-100">
                     <div class="mb-8">
                         <h2 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                            <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                             </svg>
                             ETAPAS DO PROJETO
@@ -292,12 +241,12 @@
                     <!-- Quick Stats -->
                     <div class="mt-auto pt-6 border-t border-gray-200">
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="text-center p-3 bg-sky-50 rounded-lg">
-                                <div class="text-2xl font-bold text-sky-600" id="completed-steps">0</div>
+                            <div class="text-center p-3 bg-indigo-50 rounded-lg">
+                                <div class="text-2xl font-bold text-indigo-600" id="completed-steps">0</div>
                                 <div class="text-xs text-gray-600">Concluídas</div>
                             </div>
-                            <div class="text-center p-3 bg-emerald-50 rounded-lg">
-                                <div class="text-2xl font-bold text-emerald-600" id="total-steps">43</div>
+                            <div class="text-center p-3 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600" id="total-steps">43</div>
                                 <div class="text-xs text-gray-600">Total</div>
                             </div>
                         </div>
@@ -307,31 +256,31 @@
                 <!-- Conteúdo Principal -->
                 <div class="w-full lg:w-3/5 xl:w-2/3 flex flex-col">
                     <!-- Step Content -->
-                    <div class="p-6 flex-grow">
+                    <div class="p-8 flex-grow">
                         <div class="flex justify-between items-start mb-6">
                             <div>
                                 <div class="flex items-center space-x-3 mb-2">
                                     <span id="step-counter" class="step-counter">Passo 1 de 43</span>
-                                    <span id="step-status" class="text-xs font-medium text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">Ativo</span>
+                                    <span id="step-status" class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">Ativo</span>
                                 </div>
                                 <h2 id="step-title" class="text-2xl lg:text-3xl font-bold text-gray-900 fade-in">Carregando...</h2>
                             </div>
                         </div>
 
-                        <!-- Image Container - Corrigido para mostrar imagem completa -->
-                        <div class="image-container mb-6 fade-in">
-                            <img id="step-image" src="" alt="" class="step-image transition-all duration-500">
+                        <!-- Image -->
+                        <div class="image-container mb-8 fade-in">
+                            <img id="step-image" src="" alt="" class="w-full h-64 lg:h-80 object-cover transition-all duration-500">
                         </div>
 
                         <!-- Description -->
                         <div class="fade-in">
                             <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                                <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 Descrição
                             </h3>
-                            <p id="step-description" class="text-gray-700 leading-relaxed bg-sky-50 p-4 rounded-lg border border-sky-100">
+                            <p id="step-description" class="text-gray-700 leading-relaxed bg-blue-50 p-4 rounded-lg border border-blue-100">
                                 Carregando descrição da etapa...
                             </p>
                         </div>
@@ -369,18 +318,18 @@
     <script>
         const steps = [
             {
-                title: "TechDay - SENAI São Carlos",
-                description: "Bem-vindo ao TechDay 2025 do SENAI São Carlos! Este tutorial guiará você na criação de seu primeiro projeto de Realidade Aumentada.",
+                title: "SENAI",
+                description: "Departamento Regional de São Paulo",
                 image: "imagens/imagem0.jpg"
             },
             {
                 title: "Realidade Aumentada",
-                description: "Introdução ao conceito de Realidade Aumentada - tecnologia que combina elementos virtuais com o mundo real em tempo real.",
+                description: "Introdução ao conceito de Realidade Aumentada",
                 image: "imagens/imagem01.jpg"
             },
             {
                 title: "SENAI - Prof. Luciano Trevisan",
-                description: "Apresentação do professor responsável pelo tutorial de Realidade Aumentada no TechDay 2025.",
+                description: "Apresentação do professor responsável pelo tutorial",
                 image: "imagens/imagem79.JPG"
             },
             {
@@ -661,13 +610,13 @@
             // Update status
             if (stepIndex === 0) {
                 stepStatus.textContent = 'Início';
-                stepStatus.className = 'text-xs font-medium text-sky-600 bg-sky-100 px-2 py-1 rounded-full';
+                stepStatus.className = 'text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full';
             } else if (stepIndex === steps.length - 1) {
                 stepStatus.textContent = 'Final';
-                stepStatus.className = 'text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full';
+                stepStatus.className = 'text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full';
             } else {
                 stepStatus.textContent = 'Ativo';
-                stepStatus.className = 'text-xs font-medium text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full';
+                stepStatus.className = 'text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full';
             }
 
             // Update sidebar indicators
@@ -675,14 +624,14 @@
                 const numberEl = item.querySelector('.flex-shrink-0');
                 
                 item.classList.remove('active', 'completed', 'todo');
-                numberEl.classList.remove('bg-sky-600', 'text-white', 'bg-emerald-100', 'text-emerald-800', 'bg-gray-200');
+                numberEl.classList.remove('bg-indigo-600', 'text-white', 'bg-green-100', 'text-green-800', 'bg-gray-200');
                 
                 if (index < stepIndex) {
                     item.classList.add('completed');
-                    numberEl.classList.add('bg-emerald-100', 'text-emerald-800');
+                    numberEl.classList.add('bg-green-100', 'text-green-800');
                 } else if (index === stepIndex) {
                     item.classList.add('active');
-                    numberEl.classList.add('bg-sky-600', 'text-white');
+                    numberEl.classList.add('bg-indigo-600', 'text-white');
                 } else {
                     item.classList.add('todo');
                     numberEl.classList.add('bg-gray-200');

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tutorial de Realidade Aumentada</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1313ec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101022",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<div class="flex-grow">
+<div class="flex flex-col md:flex-row">
+<!-- SideNavBar -->
+<aside class="w-full md:w-64 lg:w-72 md:sticky top-0 h-screen bg-background-light dark:bg-background-dark/50 p-4 border-r border-slate-200/10 dark:border-slate-800">
+<div class="flex flex-col h-full justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Abstract gradient logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLBRGECAhvlKAESpupN3qF4DGz0dPlpx-RWdXKa71S2bxOAtiuQurdxposFaK5QduIzIxpmI-98Qssx8LtncIuNuxn9QwwNWxEhK6CZ-DgBsjL0xviEWDwRmFvO5ZaozyLwwI5V6ShsafyskUNFLmmr8ulMtbCBBwA5r-FWPezUZI2O3zXjy9OO1JVWCszI95JkHAxnMYeCrZ9QIbqpdwOChcrCm9H4TQxLNNPRo5hSTfV49GT_j0KVT35T8cBBT4a_AwQPrOquVP1");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-medium leading-normal">AR Tutoriais</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Aprenda Realidade Aumentada</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 dark:bg-primary/30 text-primary dark:text-white" href="#step-1">
+<span class="material-symbols-outlined text-lg">settings_applications</span>
+<p class="text-sm font-medium leading-normal">Configuração do Ambiente</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#step-2">
+<span class="material-symbols-outlined text-lg">create_new_folder</span>
+<p class="text-sm font-medium leading-normal">Criação do Projeto</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#step-3">
+<span class="material-symbols-outlined text-lg">view_in_ar</span>
+<p class="text-sm font-medium leading-normal">Importação de Modelos 3D</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#step-4">
+<span class="material-symbols-outlined text-lg">videocam</span>
+<p class="text-sm font-medium leading-normal">Configuração da Câmera AR</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#step-5">
+<span class="material-symbols-outlined text-lg">code</span>
+<p class="text-sm font-medium leading-normal">Script para Interação</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#step-6">
+<span class="material-symbols-outlined text-lg">smartphone</span>
+<p class="text-sm font-medium leading-normal">Build e Teste</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Inscreva-se</span>
+</button>
+<div class="flex flex-col gap-1 mt-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<p class="text-sm font-medium leading-normal">Configurações</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#">
+<span class="material-symbols-outlined text-lg">logout</span>
+<p class="text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 md:p-10 lg:p-12">
+<div class="max-w-4xl mx-auto">
+<!-- PageHeading -->
+<header class="flex flex-col gap-4 mb-8">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Seu Primeiro Projeto de Realidade Aumentada com Unity</p>
+<p class="text-slate-500 dark:text-slate-400 text-lg font-normal leading-normal">Aprenda o básico para criar uma aplicação de RA interativa do zero. Nenhuma experiência prévia necessária.</p>
+</div>
+</header>
+<!-- DescriptionList -->
+<div class="border-t border-b border-slate-200/50 dark:border-slate-800 divide-y divide-slate-200/50 dark:divide-slate-800 mb-12">
+<div class="flex justify-between items-center gap-x-6 py-3">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Nível de Dificuldade</p>
+<p class="text-slate-800 dark:text-white text-sm font-medium leading-normal text-right">Iniciante</p>
+</div>
+<div class="flex justify-between items-center gap-x-6 py-3">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Tempo Estimado</p>
+<p class="text-slate-800 dark:text-white text-sm font-medium leading-normal text-right">45 minutos</p>
+</div>
+<div class="flex justify-between items-center gap-x-6 py-3">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Tecnologias Utilizadas</p>
+<p class="text-slate-800 dark:text-white text-sm font-medium leading-normal text-right">Unity, ARCore/ARKit</p>
+</div>
+</div>
+<!-- Tutorial Steps -->
+<div class="flex flex-col gap-16">
+<!-- Step 1 Card -->
+<section class="scroll-mt-20" id="step-1">
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Etapa 1: Configuração do Ambiente</h2>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed">Nesta primeira etapa, vamos garantir que você tenha todas as ferramentas necessárias instaladas e configuradas corretamente. Siga as instruções abaixo para instalar o Unity Hub e a versão correta do editor Unity.</p>
+<img class="rounded-xl border border-slate-200/50 dark:border-slate-800 mt-2" data-alt="Screenshot of the Unity Hub interface showing various project templates." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOx7Ec7gwiYAeAjKui06S86OefPBYmm8triMxnklt2VzcDMrdtpyk4GXzfMEM4z-AcqdM3ScIjoCBjcLt6d1xSchNTdeUkiECWmEmBa_ETw6BAH85bnmcy6cbHaJh-CgvZ8D0r6ART8Tx42fb5_CjFwzOWsznDDMmfRsQCRmmUzFLchTsa74Lko4t1glBZ9_-hG3jub5Xiv9bYSxVXwEv-pzBIcjfiWF7SnFX6e3VZGIEbfBu4xO4nj5D4izk_hyebStHkcyy9Ozod"/>
+</div>
+</section>
+<!-- Step 2 Card -->
+<section class="scroll-mt-20" id="step-2">
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Etapa 2: Criação do Projeto</h2>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed">Agora que o ambiente está pronto, vamos criar um novo projeto 3D no Unity. Selecione o template correto e configure as definições iniciais para um projeto de Realidade Aumentada.</p>
+</div>
+</section>
+<!-- Step 3 Card -->
+<section class="scroll-mt-20" id="step-3">
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Etapa 3: Importação de Modelos 3D</h2>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed">Todo projeto de RA precisa de objetos virtuais para exibir no mundo real. Nesta etapa, você aprenderá a importar um modelo 3D simples (um arquivo .fbx ou .obj) para o seu projeto e a posicioná-lo na cena.</p>
+<img class="rounded-xl border border-slate-200/50 dark:border-slate-800 mt-2" data-alt="A 3D model of a low-poly fox being viewed in the Unity editor's scene view." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhvMhstnDWWzlN7QmUwSIOHfV9R7ccgUzlqyzLkbwt3xXW-dVEjjj1LyutnZzTW8d9JRY5MNhfhDMc06D0zGzcEPvwcfyrPb0D2H5LcOhRaM8dKhRDomvC4zJ98eq6_X1Zuh8MLT0Kbbzm-tiwfHVC-VwnbXzU1FwELPuDkZBt6cQf01MoqYojfkVd2IvNRSBIpWOEm0HlMtPIQCpGhjp6iw4RsrSCdQ-Wm403uU3fmluXgYfCe7T8IprOiXFB8HU1zI7Dvu9I_JLu"/>
+</div>
+</section>
+<!-- Step 5 Card with Code Snippet -->
+<section class="scroll-mt-20" id="step-5">
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Etapa 5: Script para Interação</h2>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed">Vamos adicionar interatividade! Crie um novo script C# e adicione o código abaixo para fazer o objeto girar lentamente. Anexe este script ao seu modelo 3D na cena.</p>
+<div class="bg-[#1E1E1E] rounded-xl p-4 mt-2 group relative">
+<button class="absolute top-3 right-3 bg-slate-700/80 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">Copiar</button>
+<pre><code class="language-csharp text-sm text-slate-300">using UnityEngine;
+
+public class RotateObject : MonoBehaviour
+{
+    public float rotationSpeed = 20f;
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Rotate the object around its Y-axis
+        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+    }
+}
+</code></pre>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed">Este script simples usará a função Update para rotacionar o objeto a cada frame, criando uma animação suave.</p>
+</div>
+</section>
+<!-- Step 6 Card -->
+<section class="scroll-mt-20" id="step-6">
+<div class="flex flex-col gap-4">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Etapa 6: Build e Teste no Dispositivo</h2>
+<p class="text-slate-600 dark:text-slate-300 text-base font-normal leading-relaxed">A etapa final! Configure as definições de build para Android ou iOS, conecte seu smartphone e compile o projeto. Depois de instalar o aplicativo, aponte a câmera para uma superfície plana e veja seu objeto 3D aparecer no mundo real!</p>
+<img class="rounded-xl border border-slate-200/50 dark:border-slate-800 mt-2" data-alt="A person holding a smartphone, viewing an augmented reality dinosaur model in their living room." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJVx4Sf85lHR5KMbvSa8eCNRwz6ipXhMgRXPZIC0Z4XjD8iw66pxnIEbxz4Z2ACN1M_xYP5XC85UtUyTppbmUJ4pD9wpdKriJp2nM4evSGa5J-rCXInkqfyJnsU5saBZUdUpR-J35kZVgFyvNggaKcSI0-c0nd9jRYP-APbmLzUO8dHr3aERmDma_KGSsVMTAzSCgZ2i8DvbESaWsD6U4t2I3SO2Nd4SmHlVwhkZOLjsIAh4vxGMRjAHWC9wFuDRrZW7W5e6nF6yY2"/>
+</div>
+</section>
+</div>
+<!-- Footer Navigation -->
+<footer class="mt-16 pt-8 border-t border-slate-200/50 dark:border-slate-800">
+<div class="flex justify-between items-center">
+<button class="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+<span class="truncate">Anterior</span>
+</button>
+<button class="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Próxima Etapa</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</div>
+</div>
+</body></html>
