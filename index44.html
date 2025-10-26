@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial de Realidade Aumentada - OpenSpace3D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .step-indicator { transition: all 0.3s ease; }
+        .step-indicator.active { background-color: #2563EB; color: white; font-weight: 700; transform: scale(1.1); }
+        .step-indicator.completed { background-color: #DBEAFE; color: #1D4ED8; }
+        .step-indicator.todo { background-color: #E5E7EB; color: #4B5563; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8">
+    <main class="w-full mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <header class="p-6 sm:p-8 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Tutorial de Realidade Aumentada</h1>
+                        <p class="text-base sm:text-lg text-gray-600 mt-1">Criando seu primeiro projeto com OpenSpace3D</p>
+                    </div>
+                    <span class="text-sm font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">SENAI</span>
+                </div>
+            </header>
+
+            <nav class="p-4 sm:p-6 border-b border-gray-200">
+                <h2 class="text-sm font-semibold text-gray-500 mb-3 text-center sm:text-left">ETAPAS DO PROJETO</h2>
+                <div id="step-indicator-container" class="flex flex-wrap justify-center sm:justify-start gap-2"></div>
+            </nav>
+
+            <div class="p-6 sm:p-8">
+                <div class="aspect-w-16 aspect-h-9 mb-6 rounded-lg overflow-hidden bg-gray-200">
+                    <img id="step-image" src="" alt="" class="w-full h-full object-cover transition-opacity duration-300">
+                </div>
+                <div class="max-w-4xl mx-auto">
+                    <h2 id="step-title" class="text-xl sm:text-2xl font-semibold text-gray-900">Carregando...</h2>
+                    <p id="step-description" class="text-base text-gray-700 mt-3 leading-relaxed">Carregando descrição da etapa...</p>
+                </div>
+            </div>
+
+            <footer class="flex justify-between items-center p-6 bg-gray-50 border-t border-gray-200">
+                <div class="max-w-4xl mx-auto w-full flex justify-between">
+                    <button id="prev-button" class="nav-button bg-gray-300 text-gray-700 py-2 px-6 rounded-lg hover:bg-gray-400 transition font-medium">Anterior</button>
+                    <button id="next-button" class="nav-button bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition font-medium">Próximo</button>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        const steps = [
+            {title: "Conhecendo o OpenSpace3D", description: "Interface do OpenSpace3D com estrutura de cena.", image: "imagens/imagem1.png"},
+            {title: "Importando Modelo 3D", description: "Janela de importação com formatos de arquivo.", image: "imagens/imagem2.jpg"},
+            {title: "Localizando Arquivo", description: "Seleção do arquivo Coelho.mesh.", image: "imagens/imagem3.jpg"},
+            {title: "Recursos e Importação", description: "Configuração de pastas de recursos.", image: "imagens/imagem4.jpg"},
+            {title: "Estrutura da Cena", description: "Estrutura de cena com objeto Coelho.", image: "imagens/imagem5.jpg"},
+            {title: "Ativando Animação", description: "Ativação do loop da animação.", image: "imagens/imagem6.jpg"},
+            {title: "Criando Nó Dummy", description: "Criação do nó dummy.", image: "imagens/imagem7.jpg"},
+            {title: "Movendo Coelho", description: "Movendo Coelho para dentro do dummy.", image: "imagens/imagem8.jpg"},
+            {title: "AR Capture", description: "Adicionando AR Capture.", image: "imagens/imagem9.jpg"},
+            {title: "Configurando Câmera", description: "Configurações da câmera webcam.", image: "imagens/imagem10.jpg"},
+            {title: "Teste Inicial", description: "Primeiro teste com webcam.", image: "imagens/imagem11.jpg"},
+            {title: "AR Marker", description: "Adicionando AR Marker.", image: "imagens/imagem12.jpg"},
+            {title: "Configurando Marcador", description: "Configurações do marcador AR.", image: "imagens/imagem13.jpg"},
+            {title: "Hide Object", description: "Adicionando objeto Hide.", image: "imagens/imagem14.jpg"},
+            {title: "Programação Found", description: "Ligando Found com Show.", image: "imagens/imagem15.jpg"},
+            {title: "Programação Lost", description: "Ligando Lost com Hide.", image: "imagens/imagem16.jpg"},
+            {title: "Teste Final", description: "Teste com marcador funcionando.", image: "imagens/imagem17.jpg"},
+            {title: "Ajuste de Escala", description: "Ajustando escala do coelho.", image: "imagens/imagem18.jpg"},
+            {title: "Salvando Projeto", description: "Salvando o projeto.", image: "imagens/imagem19.jpg"},
+            {title: "Exportando Projeto", description: "Exportando para diferentes plataformas.", image: "imagens/imagem20.jpg"}
+        ];
+
+        let currentStep = 0;
+        const stepIndicatorContainer = document.getElementById('step-indicator-container');
+        const stepImage = document.getElementById('step-image');
+        const stepTitle = document.getElementById('step-title');
+        const stepDescription = document.getElementById('step-description');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        function createStepIndicators() {
+            steps.forEach((step, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'step-indicator w-10 h-10 flex items-center justify-center rounded-full font-medium cursor-pointer';
+                indicator.textContent = index + 1;
+                indicator.addEventListener('click', () => updateStep(index));
+                stepIndicatorContainer.appendChild(indicator);
+            });
+        }
+
+        function updateStep(stepIndex) {
+            currentStep = stepIndex;
+            const step = steps[stepIndex];
+            
+            stepImage.style.opacity = 0;
+            setTimeout(() => {
+                stepImage.src = step.image;
+                stepImage.alt = step.title;
+                stepImage.style.opacity = 1;
+            }, 200);
+            
+            stepTitle.textContent = `Passo ${stepIndex + 1}: ${step.title}`;
+            stepDescription.textContent = step.description;
+
+            prevButton.disabled = stepIndex === 0;
+            nextButton.disabled = stepIndex === (steps.length - 1);
+
+            Array.from(stepIndicatorContainer.children).forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed', 'todo');
+                if (index < stepIndex) indicator.classList.add('completed');
+                else if (index === stepIndex) indicator.classList.add('active');
+                else indicator.classList.add('todo');
+            });
+        }
+
+        prevButton.addEventListener('click', () => currentStep > 0 && updateStep(currentStep - 1));
+        nextButton.addEventListener('click', () => currentStep < steps.length - 1 && updateStep(currentStep + 1));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStepIndicators();
+            updateStep(0);
+        });
+    </script>
+</body>
+</html>

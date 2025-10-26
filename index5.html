@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial de Realidade Aumentada - OpenSpace3D</title>
+    <!-- Carrega o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importa a fonte Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos para os botões de navegação desabilitados */
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        /* Estilos para os indicadores de etapa */
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        /* Etapa atual */
+        .step-indicator.active {
+            background-color: #2563EB; /* bg-blue-600 */
+            color: white;
+            font-weight: 700;
+            transform: scale(1.1);
+        }
+        /* Etapa concluída */
+        .step-indicator.completed {
+            background-color: #DBEAFE; /* bg-blue-100 */
+            color: #1D4ED8; /* text-blue-700 */
+        }
+        /* Etapa a fazer */
+        .step-indicator.todo {
+            background-color: #E5E7EB; /* bg-gray-200 */
+            color: #4B5563; /* text-gray-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8">
+
+    <main class="w-full mx-auto">
+        <!-- Card principal do tutorial -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500">
+            
+            <!-- Cabeçalho -->
+            <header class="p-6 sm:p-8 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Tutorial de Realidade Aumentada</h1>
+                        <p class="text-base sm:text-lg text-gray-600 mt-1">Criando seu primeiro projeto com OpenSpace3D</p>
+                    </div>
+                    <span class="text-sm font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">SENAI</span>
+                </div>
+            </header>
+
+            <!-- Barra de progresso/navegação por etapas -->
+            <nav class="p-4 sm:p-6 border-b border-gray-200">
+                <h2 class="text-sm font-semibold text-gray-500 mb-3 text-center sm:text-left">ETAPAS DO PROJETO</h2>
+                <div id="step-indicator-container" class="flex flex-wrap justify-center sm:justify-start gap-2">
+                    <!-- Indicadores de etapa serão gerados pelo JavaScript -->
+                </div>
+            </nav>
+
+            <!-- Conteúdo da Etapa Atual -->
+            <div class="p-6 sm:p-8">
+                <!-- Imagem da Etapa -->
+                <div class="aspect-w-16 aspect-h-9 mb-6 rounded-lg overflow-hidden bg-gray-200">
+                    <img id="step-image" 
+                         src="https://placehold.co/800x450/e2e8f0/64748b?text=Interface+do+OpenSpace3D" 
+                         alt="Captura de tela da etapa atual do tutorial" 
+                         class="w-full h-full object-cover transition-opacity duration-300">
+                </div>
+
+                <!-- Título e Descrição da Etapa -->
+                <div class="max-w-4xl mx-auto">
+                    <h2 id="step-title" class="text-xl sm:text-2xl font-semibold text-gray-900">Carregando...</h2>
+                    <p id="step-description" class="text-base text-gray-700 mt-3 leading-relaxed">Carregando descrição da etapa...</p>
+                </div>
+            </div>
+
+            <!-- Navegação (Anterior/Próximo) -->
+            <footer class="flex justify-between items-center p-6 bg-gray-50 border-t border-gray-200 rounded-b-2xl">
+                <div class="max-w-4xl mx-auto w-full flex justify-between">
+                    <button id="prev-button" class="nav-button bg-gray-300 text-gray-700 py-2 px-6 rounded-lg shadow-md hover:bg-gray-400 transition duration-300 font-medium">
+                        Anterior
+                    </button>
+                    <button id="next-button" class="nav-button bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 font-medium">
+                        Próximo
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        // Array com todo o conteúdo do tutorial, atualizado com base no PDF fornecido
+        const steps = [
+            {
+                title: "Conhecendo o OpenSpace3D",
+                description: "Este tutorial usará o <strong>OpenSpace3D</strong>, um editor 3D para Realidade Aumentada. A tela inicial apresenta a <strong>Estrutura de cena</strong> (Scene) à esquerda, que por padrão contém uma câmera e uma luz.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Interface+do+OpenSpace3D+com+estrutura+de+cena"
+            },
+            {
+                title: "Importando um Modelo 3D",
+                description: "Vamos começar importando um modelo. Clique com o botão direito em 'Scene' > 'Importar modelo'.<br>1. Na janela 'Importação da cena', selecione <strong>'Formatos de arquivo padrão (3D .dae, .obj, .fbx, .scene...)'</strong>.<br>2. Clique em 'Próxima'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+de+Importação+com+formatos+de+arquivo"
+            },
+            {
+                title: "Localizando o Arquivo",
+                description: "Navegue até a pasta de modelos. No tutorial, o caminho é:<br><code>C:\\Program Files\\Scol Voyager\\Partition_LockedApp\\assets\\models\\library\\Kingdom_Animalia\\Rabbit</code><br>Selecione o arquivo <strong>'Coelho.mesh'</strong> e clique em 'Abrir'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Pasta+Kingdom_Animalia+Rabbit+com+arquivo+Coelho.mesh"
+            },
+            {
+                title: "Recursos e Finalização da Importação",
+                description: "A próxima tela pergunta sobre as pastas de recursos (texturas, shaders). A pasta correta já deve estar listada. Apenas clique em 'Próxima'.<br>Na tela seguinte, clique em <strong>'Importação'</strong> para finalizar. O modelo 'Coelho' aparecerá na sua cena.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+de+seleção+de+recursos+e+importação"
+            },
+            {
+                title: "Estrutura da Cena com Coelho",
+                description: "Após a importação, a estrutura de cena mostrará:<br><strong>Scene</strong><br>- Cinematica<br>- default_camera<br>- default_light<br>- Coelho #1<br>- Coelho.Spine_1 #1<br>- Coelho.Spine_2 #1<br>- Coelho.Tail_Base #1<br>- Coelho.L_Hip #1<br>- Coelho.R_Hip #1<br>- default_ski #2 (skeletal)",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Estrutura+de+cena+com+objeto+Coelho+e+esqueleto"
+            },
+            {
+                title: "Ativando a Animação",
+                description: "O modelo 'Coelho' possui uma estrutura de esqueleto ('skeletal'). Para que a animação não toque apenas uma vez, clique com o botão direito no nó <strong>'default_skl#...' (skeletal)</strong>.<br>No menu, selecione a opção <strong>'Laço habilitado'</strong> (Loop).",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Menu+contextual+com+opção+Laço+habilitado"
+            },
+            {
+                title: "Criando um Nó 'Dummy'",
+                description: "Para controlar o coelho, vamos agrupá-lo. Clique com o botão direito em <strong>'Scene'</strong> > 'Adicionar um nó'.<br>Mantenha o nome <strong>'dummy'</strong> e clique em 'OK'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+para+criação+de+nó+dummy"
+            },
+            {
+                title: "Movendo Coelho para Dummy",
+                description: "Agora, arraste o objeto <strong>'Coelho#1'</strong> para dentro do nó 'dummy#1' que você acabou de criar. Confirme clicando 'OK' na janela de aviso.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+de+confirmação+para+mover+Coelho+para+Dummy"
+            },
+            {
+                title: "Adicionando 'AR Capture' (Webcam)",
+                description: "Agora vamos ativar a câmera. Na parte inferior, clique na aba <strong>'Scene'</strong> (ao lado de 'Grupos') para ver a área de programação visual.<br>Clique com o botão direito na área cinza > 'Dispositivo' > 'AR capture'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Menu+contextual+com+opção+AR+capture"
+            },
+            {
+                title: "Configurando a Câmera",
+                description: "Na janela 'Edit AR capture', configure sua webcam:<br>1. <strong>Índice dispositivo:</strong> 0 (geralmente é a webcam padrão).<br>2. <strong>Resolução da webcam:</strong> Escolha uma (ex: 640x480).<br>3. <strong>Desmarque</strong> a opção 'Modo espelho' (para a RA funcionar corretamente).<br>4. Clique em 'Aplicar' e depois 'OK'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Configurações+do+AR+Capture+com+índice+e+resolução"
+            },
+            {
+                title: "Teste Inicial da Câmera",
+                description: "Na barra de ferramentas superior, clique no botão <strong>'Play'</strong> (ícone de triângulo).<br>Você deverá ver a imagem da sua webcam com o coelho flutuando no meio da tela. Clique no 'Stop' (quadrado) para sair.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Visualização+da+webcam+com+coelho+flutuando"
+            },
+            {
+                title: "Adicionando 'AR Marker'",
+                description: "Queremos que o coelho só apareça ao ver um marcador. Na área de programação 'Scene', clique com o botão direito > 'Dispositivo' > <strong>'AR marker'</strong>.<br>Isso adicionará um nó 'AR marker inst' à sua tela.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Menu+contextual+com+opção+AR+marker"
+            },
+            {
+                title: "Configurando o Marcador",
+                description: "Clique duas vezes no 'AR marker inst'.<br>1. <strong>Marcador ID:</strong> Escolha um número (ex: 1).<br>2. <strong>Registre-se:</strong> Salve a imagem do marcador para imprimi-la.<br>3. <strong>Nome do l'objeto:</strong> Clique no '...' e selecione o nó <strong>'dummy'</strong>.<br>4. Marque 'Habilitar rastreamento...'.<br>5. Clique 'Aplicar' e 'OK'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Configurações+do+AR+Marker+com+ID+e+objeto"
+            },
+            {
+                title: "Adicionando 'Hide' (Ocultar)",
+                description: "Por padrão, o coelho já está visível. Precisamos escondê-lo.<br>Clique com o botão direito na área de programação > 'Objetos' > <strong>'Hide'</strong>.<br>Na janela 'Edit hide', em 'Nome da origem', selecione o nó <strong>'dummy'</strong>.<br>Marque a opção <strong>'Esconder na inicialização'</strong>. Clique 'Aplicar' e 'OK'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Configurações+do+Hide+com+objeto+dummy"
+            },
+            {
+                title: "Programando a Lógica Visual - Found",
+                description: "Vamos ligar os nós:<br>1. <strong>Mostrar Objeto:</strong> Clique com o botão direito no nó 'AR marker' > 'Found'. Arraste a linha até o nó 'hide inst' e solte. Selecione 'Show'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Ligação+Found+do+AR+marker+com+Show+do+Hide"
+            },
+            {
+                title: "Programando a Lógica Visual - Lost",
+                description: "2. <strong>Esconder Objeto:</strong> Clique com o botão direito no 'AR marker' > 'Lost'. Arraste a linha até o 'hide inst' e selecione 'Hide'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Ligação+Lost+do+AR+marker+com+Hide+do+Hide"
+            },
+            {
+                title: "Teste Final",
+                description: "Clique no botão 'Play' novamente. O coelho deve estar <strong>invisível</strong>.<br>Agora, mostre o marcador que você imprimiu para a webcam.<br>O coelho deve aparecer sobre o marcador!",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Coelho+aparecendo+sobre+o+marcador+na+webcam"
+            },
+            {
+                title: "Ajustando a Escala",
+                description: "O coelho está muito grande? Clique com o botão direito no nó 'dummy' na Estrutura de Cena > 'Ajuste de escala' e defina a Relação (%) para 30.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+de+ajuste+de+escala+com+30%25"
+            },
+            {
+                title: "Salvando o Projeto",
+                description: "Para salvar, vá em 'Arquivo' > 'Salvar projeto'.<br>Escolha ou crie uma pasta para salvar o projeto com o nome desejado.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+de+salvar+projeto+com+nome+Coelho"
+            },
+            {
+                title: "Exportando o Projeto",
+                description: "Para exportar (ex: app Windows, Android), clique no ícone 'Exportar para o player OpenSpace3D'.<br>Selecione o formato desejado e clique em 'OK'.",
+                image: "https://placehold.co/800x450/e2e8f0/64748b?text=Janela+de+exportação+com+opções+Windows%2C+Android%2C+etc"
+            }
+        ];
+
+        let currentStep = 0;
+
+        // Seleciona os elementos do DOM
+        const stepIndicatorContainer = document.getElementById('step-indicator-container');
+        const stepImage = document.getElementById('step-image');
+        const stepTitle = document.getElementById('step-title');
+        const stepDescription = document.getElementById('step-description');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        /**
+         * Cria os indicadores de etapa numerados dinamicamente
+         */
+        function createStepIndicators() {
+            steps.forEach((step, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'step-indicator w-10 h-10 flex items-center justify-center rounded-full font-medium cursor-pointer';
+                indicator.textContent = index + 1;
+                indicator.addEventListener('click', () => updateStep(index));
+                stepIndicatorContainer.appendChild(indicator);
+            });
+        }
+
+        /**
+         * Atualiza a UI para mostrar a etapa correta
+         * @param {number} stepIndex - O índice da etapa a ser exibida
+         */
+        function updateStep(stepIndex) {
+            // Define a etapa atual
+            currentStep = stepIndex;
+            const step = steps[stepIndex];
+
+            // Atualiza o conteúdo de texto e imagem
+            stepImage.style.opacity = 0;
+            setTimeout(() => {
+                stepImage.src = step.image;
+                stepImage.alt = step.title;
+                stepImage.style.opacity = 1;
+            }, 200); // Pequeno fade
+            
+            stepTitle.textContent = `Passo ${stepIndex + 1}: ${step.title}`;
+            stepDescription.innerHTML = step.description;
+
+            // Atualiza o estado dos botões de navegação
+            prevButton.disabled = stepIndex === 0;
+            nextButton.disabled = stepIndex === (steps.length - 1);
+
+            // Atualiza os estilos dos indicadores de etapa
+            Array.from(stepIndicatorContainer.children).forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed', 'todo');
+                if (index < stepIndex) {
+                    indicator.classList.add('completed');
+                } else if (index === stepIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.add('todo');
+                }
+            });
+        }
+
+        // Adiciona os event listeners aos botões
+        prevButton.addEventListener('click', () => {
+            if (currentStep > 0) {
+                updateStep(currentStep - 1);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                updateStep(currentStep + 1);
+            }
+        });
+
+        // Inicializa o tutorial quando a página carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            createStepIndicators();
+            updateStep(0); // Começa na primeira etapa
+        });
+
+    </script>
+</body>
+</html>
