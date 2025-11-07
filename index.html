@@ -10,19 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0EA5E9;  /* Azul Sky */
-            --primary-dark: #0284C7; /* Azul mais escuro */
-            --secondary: #10B981; /* Verde */
-            --accent: #F59E0B;   /* Âmbar */
+            --primary: #0EA5E9;
+            --primary-dark: #0284C7;
+            --secondary: #10B981;
+            --accent: #F59E0B;
             --dark: #1F2937;
             --light: #F8FAFC;
-            --gradient: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%); /* Azul para Verde */
         }
         
         body { 
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
         
         .glass-effect {
@@ -31,81 +32,25 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .nav-button:disabled { 
-            opacity: 0.5; 
-            cursor: not-allowed; 
-        }
-        
-        .step-sidebar { 
-            max-height: calc(100vh - 180px); 
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-        
-        .step-sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        
-        .step-sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .step-sidebar::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        
-        .step-sidebar-item { 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 3px solid transparent;
-        }
-        
-        .step-sidebar-item.active { 
-            background: linear-gradient(135deg, #F0F9FF, #E0F2FE);
-            border-left-color: var(--primary);
-            transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
-        }
-        
-        .step-sidebar-item.completed { 
-            color: var(--primary);
-            opacity: 0.8;
-        }
-        
-        .step-sidebar-item.todo { 
-            color: #6B7280;
-            opacity: 0.6;
-        }
-        
-        .step-sidebar-item:hover {
-            transform: translateX(2px);
-            background: rgba(14, 165, 233, 0.05);
-        }
-        
-        .progress-bar {
-            background: #E5E7EB;
-            border-radius: 10px;
-            overflow: hidden;
-            height: 6px;
-        }
-        
-        .progress-fill {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            height: 100%;
-            transition: width 0.5s ease;
+        .floating-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .image-container {
             position: relative;
             overflow: hidden;
             border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
             background: #f8fafc;
             min-height: 400px;
+            border: 2px dashed #d1d5db;
         }
         
         .step-image {
@@ -114,33 +59,16 @@
             width: auto;
             height: auto;
             object-fit: contain;
-            transition: all 0.3s ease;
         }
         
-        .image-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.1));
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .image-container:hover::before {
-            opacity: 1;
-        }
-        
-        .step-counter {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            padding: 2rem;
+            text-align: center;
         }
         
         .btn-primary {
@@ -151,10 +79,9 @@
             padding: 12px 24px;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.3);
         }
         
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 15px rgba(14, 165, 233, 0.4);
         }
@@ -169,28 +96,10 @@
             transition: all 0.3s ease;
         }
         
-        .btn-secondary:hover {
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .floating-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        .techday-header {
+            background: linear-gradient(135deg, #0369A1 0%, #0D9488 50%, #059669 100%);
+            color: white;
+            padding: 1rem 0;
         }
         
         .fade-in {
@@ -202,88 +111,46 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .techday-header {
-            background: linear-gradient(135deg, #0369A1 0%, #0D9488 50%, #059669 100%);
-            color: white;
-            padding: 1rem 0;
+        .progress-bar {
+            background: #E5E7EB;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 6px;
         }
         
-        .techday-badge {
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            color: white;
-            border-radius: 8px;
-            padding: 4px 12px;
-            font-weight: 700;
-            font-size: 0.875rem;
-        }
-        
-        .senai-blue {
-            background: linear-gradient(135deg, #1E40AF, #1D4ED8);
-            color: white;
-        }
-
-        .image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #6B7280;
-            font-size: 1.1rem;
-        }
-
-        .image-error {
-            border: 2px dashed #EF4444;
-            background: #FEF2F2;
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            transition: width 0.5s ease;
         }
     </style>
 </head>
-<body class="min-h-screen p-0">
+<body class="min-h-screen">
     <!-- TechDay Header -->
     <div class="techday-header">
-        <div class="max-w-7xl mx-auto px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-center md:text-left mb-4 md:mb-0">
                     <h1 class="text-2xl md:text-3xl font-bold">TechDay 2025</h1>
                     <p class="text-blue-100 mt-1">Senai São Carlos - Inovação e Tecnologia</p>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="techday-badge">Evento Oficial</span>
-                    <span class="senai-blue px-4 py-2 rounded-full font-semibold text-sm">SENAI</span>
+                    <span class="bg-yellow-500 text-white px-3 py-1 rounded-full font-semibold text-sm">Evento Oficial</span>
+                    <span class="bg-blue-600 text-white px-4 py-2 rounded-full font-semibold text-sm">SENAI</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="w-full py-4 px-8 glass-effect">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <div class="w-10 h-10 bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-gray-900">Tutorial de Realidade Aumentada</h1>
-                    <p class="text-gray-600">Criando seu primeiro projeto com OpenSpace3D</p>
-                </div>
-            </div>
-            <div class="text-right">
-                <p class="text-sm text-gray-600">Professor</p>
-                <p class="font-semibold text-gray-900">Luciano Trevisan</p>
-            </div>
-        </div>
-    </header>
-
     <!-- Main Content -->
-    <main class="w-full max-w-7xl mx-auto py-6 px-4">
+    <main class="w-full max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div class="floating-card overflow-hidden">
-            <div class="flex flex-col lg:flex-row h-full">
+            <div class="flex flex-col lg:flex-row min-h-[600px]">
                 <!-- Menu Lateral -->
-                <div class="w-full lg:w-2/5 xl:w-1/3 bg-gradient-to-b from-gray-50 to-white p-6 border-r border-gray-100">
+                <div class="w-full lg:w-1/3 bg-gradient-to-b from-gray-50 to-white p-6 border-r border-gray-200">
                     <div class="mb-8">
-                        <h2 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                            <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                            <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                             </svg>
                             ETAPAS DO PROJETO
@@ -301,18 +168,20 @@
                         </div>
                         
                         <!-- Steps List -->
-                        <div id="step-sidebar" class="step-sidebar space-y-2"></div>
+                        <div id="step-sidebar" class="space-y-2 max-h-[400px] overflow-y-auto pr-2">
+                            <!-- Steps will be populated by JavaScript -->
+                        </div>
                     </div>
                     
                     <!-- Quick Stats -->
-                    <div class="mt-auto pt-6 border-t border-gray-200">
+                    <div class="mt-6 pt-6 border-t border-gray-200">
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="text-center p-3 bg-sky-50 rounded-lg">
-                                <div class="text-2xl font-bold text-sky-600" id="completed-steps">0</div>
+                            <div class="text-center p-3 bg-blue-50 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600" id="completed-steps">0</div>
                                 <div class="text-xs text-gray-600">Concluídas</div>
                             </div>
-                            <div class="text-center p-3 bg-emerald-50 rounded-lg">
-                                <div class="text-2xl font-bold text-emerald-600" id="total-steps">43</div>
+                            <div class="text-center p-3 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600" id="total-steps">0</div>
                                 <div class="text-xs text-gray-600">Total</div>
                             </div>
                         </div>
@@ -320,39 +189,40 @@
                 </div>
 
                 <!-- Conteúdo Principal -->
-                <div class="w-full lg:w-3/5 xl:w-2/3 flex flex-col">
+                <div class="w-full lg:w-2/3 flex flex-col">
                     <!-- Step Content -->
                     <div class="p-6 flex-grow">
                         <div class="flex justify-between items-start mb-6">
                             <div>
                                 <div class="flex items-center space-x-3 mb-2">
-                                    <span id="step-counter" class="step-counter">Passo 1 de 43</span>
-                                    <span id="step-status" class="text-xs font-medium text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">Ativo</span>
+                                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium" id="step-counter">Passo 1 de 0</span>
+                                    <span id="step-status" class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">Ativo</span>
                                 </div>
                                 <h2 id="step-title" class="text-2xl lg:text-3xl font-bold text-gray-900 fade-in">Carregando...</h2>
                             </div>
                         </div>
 
-                        <!-- Image Container - Corrigido para mostrar imagem completa -->
+                        <!-- Image Container -->
                         <div class="image-container mb-6 fade-in" id="image-container">
-                            <img id="step-image" src="" alt="" class="step-image transition-all duration-500" onerror="handleImageError(this)">
-                            <div id="image-placeholder" class="image-placeholder hidden">
+                            <div id="image-placeholder" class="image-placeholder">
                                 <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <p>Imagem não disponível</p>
+                                <p class="text-lg font-medium text-gray-500">Imagem do tutorial</p>
+                                <p class="text-sm text-gray-400 mt-2">A imagem será carregada aqui</p>
                             </div>
+                            <img id="step-image" src="" alt="" class="step-image hidden" onerror="handleImageError(this)">
                         </div>
 
                         <!-- Description -->
                         <div class="fade-in">
                             <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                                <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 Descrição
                             </h3>
-                            <p id="step-description" class="text-gray-700 leading-relaxed bg-sky-50 p-4 rounded-lg border border-sky-100">
+                            <p id="step-description" class="text-gray-700 leading-relaxed bg-blue-50 p-4 rounded-lg border border-blue-100">
                                 Carregando descrição da etapa...
                             </p>
                         </div>
@@ -360,7 +230,7 @@
 
                     <!-- Navegação -->
                     <footer class="flex justify-between items-center p-6 bg-gray-50 border-t border-gray-200">
-                        <button id="prev-button" class="btn-secondary flex items-center">
+                        <button id="prev-button" class="btn-secondary flex items-center" disabled>
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
@@ -388,48 +258,7 @@
     </main>
 
     <script>
-        // Função para corrigir caminhos das imagens no GitHub Pages
-        function getImagePath(relativePath) {
-            // Se estiver no GitHub Pages, usa caminho absoluto
-            if (window.location.hostname.includes('github.io')) {
-                const repoName = window.location.pathname.split('/')[1];
-                if (repoName) {
-                    return `/${repoName}/${relativePath}`;
-                }
-            }
-            // Localmente usa caminho relativo
-            return relativePath;
-        }
-
-        // Função para tratar erro de carregamento de imagem
-        function handleImageError(img) {
-            console.warn('Erro ao carregar imagem:', img.src);
-            const placeholder = document.getElementById('image-placeholder');
-            const container = document.getElementById('image-container');
-            
-            img.style.display = 'none';
-            placeholder.classList.remove('hidden');
-            container.classList.add('image-error');
-        }
-
-        // Função para carregar imagem com fallback
-        function loadImageWithFallback(imgElement, imagePath) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    imgElement.src = imagePath;
-                    imgElement.style.display = 'block';
-                    document.getElementById('image-placeholder').classList.add('hidden');
-                    document.getElementById('image-container').classList.remove('image-error');
-                    resolve(true);
-                };
-                img.onerror = () => {
-                    resolve(false);
-                };
-                img.src = imagePath;
-            });
-        }
-
+        // Configuração das etapas - SEM IMAGENS por enquanto
         const steps = [
             {
                 title: "TechDay - SENAI São Carlos",
@@ -439,215 +268,215 @@
             {
                 title: "Realidade Aumentada",
                 description: "Introdução ao conceito de Realidade Aumentada - tecnologia que combina elementos virtuais com o mundo real em tempo real.",
-                image: "imagens/imagem01.jpg"
+                image: "imagens/imagem0.jpg"
             },
             {
                 title: "SENAI - Prof. Luciano Trevisan",
                 description: "Apresentação do professor responsável pelo tutorial de Realidade Aumentada no TechDay 2025.",
-                image: "imagens/imagem79.JPG"
+                image: "imagens/imagem0.jpg"
             },
             {
                 title: "Software - Editor 3D",
                 description: "OpenSpace3D - Editor para Realidade Aumentada<br>Site: https://www.openspace3d.com/",
-                image: "imagens/imagem03.jpg"
-            },
+                image: "imagens/imagem0.jpg"
             {
                 title: "Interface do OpenSpace3D",
                 description: "Conhecendo a interface: cena ou palco com três ambientes representados por nós (Cinemática, Câmera e Luz)",
-                image: "imagens/imagem1.png"
+                image: "imagens/imagem0.jpg"
             },
             {
                 title: "Importando uma Cena",
                 description: "OpenSpace3D Editor: 1.87.0<br>Formatos suportados: Formatos padrão (3D, dae, obj, fbx, scene), Biblioteca OpenSpace3D, Projeto OpenSpace3D, Modelo dinâmico",
-                image: "imagens/imagem2.jpg"
+                image: null
             },
             {
                 title: "Seleção do Formato",
                 description: "Importação de cena - Selecionar formato de arquivo padrão (3D_dae, obj_flox, scene...) e clicar em Próxima<br>Caminho: C:\\Program Files\\Scol Voyager\\Partition_LockedApp\\assets\\models\\library",
-                image: "imagens/imagem3.jpg"
+                image: null
             },
             {
                 title: "Acessando Pasta de Modelos",
                 description: "Navegando para a pasta: Kingdom_Animalia\\Rabbit",
-                image: "imagens/imagem4.jpg"
+                image: null
             },
             {
                 title: "Selecionando Modelo Coelho",
                 description: "Após selecionar o modelo coelho, clique em abrir",
-                image: "imagens/imagem2222.png"
+                image: null
             },
             {
                 title: "Pastas de Recursos",
                 description: "Importação da cena: Selecionar pastas de recursos para assets/models/library/Kingdom_Animalia/Rabbit/Coelho.mesh (bitmaps, shaders, programa, esqueleto...)",
-                image: "imagens/imagem06.jpg"
+                image: null
             },
             {
                 title: "Arquivos de Programa e Material",
                 description: "Selecionar arquivos de programa e material para coelho.mesh<br>Adicionar script ou remover script conforme necessário<br>Clicar em Importação",
-                image: "imagens/imagem07.jpg"
+                image: null
             },
             {
                 title: "Cena Importada",
                 description: "Foi inserido a cena coelho e também visualizamos o objeto coelho",
-                image: "imagens/imagem08.jpg"
+                image: null
             },
             {
                 title: "Estrutura da Cena",
                 description: "Estrutura de cena com:<br>- Cinematica<br>- default_camera<br>- default_light<br>- Coelho #1<br>- Estrutura do esqueleto com movimentos",
-                image: "imagens/imagem09.jpg"
+                image: null
             },
             {
                 title: "Ativando Loop de Animação",
                 description: "Clique com o botão direito no skeletal para ativar o loop de repetição dos movimentos do objeto<br>Laço habilitado - movimento executa continuamente",
-                image: "imagens/imagem10.jpg"
+                image: null
             },
             {
                 title: "Menu de Contexto - Scene",
                 description: "Clique com o botão direito em Scene para acessar opções:<br>- Adicionar um nó<br>- Adicionar objetos, câmeras, luzes<br>- Configurações de render",
-                image: "imagens/imagem11.jpg"
+                image: null
             },
             {
                 title: "Criando Novo Nó",
                 description: "Janela para criação de novo nó<br>Nome: dummy<br>Clicar em OK para confirmar",
-                image: "imagens/imagem12.jpg"
+                image: null
             },
             {
                 title: "Estrutura com Dummy",
                 description: "Estrutura de cena atualizada com dummy #3<br>Agora vamos mover o coelho para dentro do dummy",
-                image: "imagens/imagem13.jpg"
+                image: null
             },
             {
                 title: "Confirmando Movimento",
                 description: "Atenção: Tem certeza que quer passar 1.Coelho como o filho de 3.dummy?<br>Clicar em OK para confirmar",
-                image: "imagens/imagem17.jpg"
+                image: null
             },
             {
                 title: "Aba Scene - Programação Visual",
                 description: "Agora clique duas vezes no objeto Scene para acessar a área de programação visual",
-                image: "imagens/imagem14.jpg"
+                image: null
             },
             {
                 title: "Menu de Plugins - AR Capture",
                 description: "Clique com botão direito do mouse e vamos inserir um AR capture dentro Scene<br>Navegar em Dispositivo > AR capture",
-                image: "imagens/imagem201.jpg"
+                image: null
             },
             {
                 title: "Configurações AR Capture",
                 description: "Edit AR capture:<br>- Índice dispositivo: 0<br>- Resolução da webcam: 540x480<br>- Desmarcar Modo espelho<br>- Clicar em Aplicar e OK",
-                image: "imagens/imagem210.jpg"
+                image: null
             },
             {
                 title: "Teste Inicial",
                 description: "Agora testar, clicando no botão Play (indicado em vermelho)",
-                image: "imagens/imagem21.jpg"
+                image: null
             },
             {
                 title: "Resultado do Teste",
                 description: "Como resposta do teste, podemos ver o coelho junto com a projeção da WebCam",
-                image: "imagens/imagem22.jpg"
+                image: null
             },
             {
                 title: "Adicionando AR Marker",
                 description: "Agora vamos adicionar um marcador AR marker<br>Navegar em Dispositivo > AR marker",
-                image: "imagens/imagem23.jpg"
+                image: null
             },
             {
                 title: "Configurações AR Marker",
                 description: "Edit AR marker:<br>- Marcador ID: 0<br>- Registrar marcador<br>- Configurar objeto associado",
-                image: "imagens/imagem24.jpg"
+                image: null
             },
             {
                 title: "Registro do Marcador",
                 description: "Após escolha do ID, clique em Registre-se e salve o seu marcador",
-                image: "imagens/imagem25.jpg"
+                image: null
             },
             {
                 title: "Configurações Avançadas Marker",
                 description: "Importante deixar ativo na inicialização:<br>- Ativar na inicialização<br>- Habilitar rastreamento marcador na inicialização",
-                image: "imagens/imagem26.jpg"
+                image: null
             },
             {
                 title: "Associando com Dummy",
                 description: "Configurar AR marker com dummy:<br>- Nome do l'objeto: 3.dummy<br>- Marcar opções de inicialização<br>- Clicar em Aplicar e OK",
-                image: "imagens/imagem27.jpg"
+                image: null
             },
             {
                 title: "Preparando Marcador para Impressão",
                 description: "Vamos utilizar o Word para preparar o nosso marcador para a impressão. Inserir o marcador no local que salvamos no registro do marcador.",
-                image: "imagens/imagem28.jpg"
+                image: null
             },
             {
                 title: "Adicionando Objeto Hide",
                 description: "Agora vamos inserir um Objeto – Hide para visualização através do nosso marcador<br>Navegar em Objetos > Hide",
-                image: "imagens/imagem29.jpg"
+                image: null
             },
             {
                 title: "Configurações Hide",
                 description: "Edit hide:<br>- Nome de origem: 3.dummy<br>- Marcar 'Esconder na inicialização'<br>- Clicar em Aplicar e OK",
-                image: "imagens/imagem30.png"
+                image: null
             },
             {
                 title: "Programação Visual - Found",
                 description: "Passo 1 - Clique botão direito no AR marker, selecione Found<br>Passo 2 - Ligar com objeto Hide selecionando Show",
-                image: "imagens/imagem31.jpg"
+                image: null
             },
             {
                 title: "Programação Visual - Lost",
                 description: "Passo 1 - Clique botão direito no AR marker, selecione Lost<br>Passo 2 - Ligar com objeto Hide selecionando Hide",
-                image: "imagens/imagem321.jpg"
+                image: null
             },
             {
                 title: "Teste Final",
                 description: "Agora testar, clicando no botão Play novamente",
-                image: "imagens/imagem322.jpg"
+                image: null
             },
             {
                 title: "Resultado da Programação",
                 description: "Após programado os eventos, inicie a câmera e o coelho não é exibido na tela",
-                image: "imagens/imagem323.jpg"
+                image: null
             },
             {
                 title: "Teste com Marcador",
                 description: "Agora aponte o marcador e conseguimos visualizar o coelho",
-                image: "imagens/imagem324.jpg"
+                image: null
             },
             {
                 title: "Ajuste de Escala",
                 description: "Ajustando a escala de visualização do coelho em 30%<br>Acessar: Botão direito no dummy > Ajuste de escala",
-                image: "imagens/imagem325.jpg"
+                image: null
             },
             {
                 title: "Resultado do Ajuste",
                 description: "Tamanho do objeto após o ajuste de escala",
-                image: "imagens/imagem326.jpg"
+                image: null
             },
             {
                 title: "Configurações do Projeto",
                 description: "Configurações do projeto:<br>- Nome: Coelho<br>- Versão: 1.000<br>- Idioma: portuguese-Brazil<br>- Configurações de tela",
-                image: "imagens/imagem327.jpg"
+                image: null
             },
             {
                 title: "Salvando o Projeto",
                 description: "Salvar projeto (Ctrl + S)<br>Escolher ou criar uma pasta para salvar o projeto",
-                image: "imagens/imagem328.jpg"
+                image: null
             },
             {
                 title: "Exportando o Projeto",
                 description: "Exportar para o player OpenSpace3D (Ctrl + E)<br>Opções: Windows, Linux, Raspberry Pi, MacOS, Android, iOS, Oculus Mobile<br>Sempre exportar o pacote de projeto OpenSpace3D",
-                image: "imagens/imagem329.jpg"
+                image: null
             },
             {
                 title: "Tipos de Exportação",
                 description: "Tipos de exportação suportados pelo OpenSpace3D",
-                image: "imagens/imagem329.jpg"
+                image: null
             },
             {
                 title: "Departamento Regional SP",
                 description: "DEPARTAMENTO REGIONAL: DE SÃO PAULO<br>www.sp.senai.br",
-                image: "imagens/imagem330.jpg"
+                image: null
             }
         ];
 
+        // Variáveis globais
         let currentStep = 0;
         const stepSidebar = document.getElementById('step-sidebar');
         const stepImage = document.getElementById('step-image');
@@ -662,22 +491,36 @@
         const stepStatus = document.getElementById('step-status');
         const completedSteps = document.getElementById('completed-steps');
         const totalSteps = document.getElementById('total-steps');
+        const imagePlaceholder = document.getElementById('image-placeholder');
 
+        // Função para tratar erro de imagem
+        function handleImageError(img) {
+            console.log('Imagem não carregada:', img.src);
+            img.classList.add('hidden');
+            imagePlaceholder.classList.remove('hidden');
+        }
+
+        // Função para criar a sidebar
         function createStepSidebar() {
             steps.forEach((step, index) => {
                 const sidebarItem = document.createElement('div');
-                sidebarItem.className = 'step-sidebar-item p-4 rounded-lg cursor-pointer';
+                sidebarItem.className = `step-sidebar-item p-3 rounded-lg cursor-pointer border-l-4 ${
+                    index === 0 ? 'bg-blue-50 border-blue-500' : 'border-transparent'
+                } hover:bg-gray-50 transition-colors`;
+                
                 sidebarItem.innerHTML = `
                     <div class="flex items-start">
-                        <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium mr-3 mt-0.5">
+                        <div class="flex-shrink-0 w-6 h-6 rounded-full ${
+                            index === 0 ? 'bg-blue-600 text-white' : 'bg-gray-200'
+                        } flex items-center justify-center text-xs font-medium mr-3 mt-0.5">
                             ${index + 1}
                         </div>
                         <div class="flex-1">
-                            <div class="font-medium text-gray-900">${step.title}</div>
-                            <div class="text-xs text-gray-500 mt-1 truncate">${step.description.replace(/<br>/g, ' ').substring(0, 60)}...</div>
+                            <div class="font-medium text-gray-900 text-sm">${step.title}</div>
                         </div>
                     </div>
                 `;
+                
                 sidebarItem.addEventListener('click', () => updateStep(index));
                 stepSidebar.appendChild(sidebarItem);
             });
@@ -685,96 +528,108 @@
             totalSteps.textContent = steps.length;
         }
 
-        async function updateStep(stepIndex) {
+        // Função para atualizar a etapa atual
+        function updateStep(stepIndex) {
             currentStep = stepIndex;
             const step = steps[stepIndex];
             
-            // Fade out image
-            stepImage.style.opacity = 0;
-            
-            // Update content immediately
+            // Atualizar conteúdo
             stepTitle.textContent = step.title;
             stepDescription.innerHTML = step.description;
             
-            // Load image with corrected path
-            const imagePath = getImagePath(step.image);
-            const imageLoaded = await loadImageWithFallback(stepImage, imagePath);
-            
-            if (imageLoaded) {
-                stepImage.style.opacity = 1;
+            // Gerenciar imagem
+            if (step.image) {
+                stepImage.src = step.image;
+                stepImage.classList.remove('hidden');
+                imagePlaceholder.classList.add('hidden');
+            } else {
+                stepImage.classList.add('hidden');
+                imagePlaceholder.classList.remove('hidden');
             }
             
-            // Update navigation
+            // Atualizar navegação
             prevButton.disabled = stepIndex === 0;
-            nextButton.disabled = stepIndex === (steps.length - 1);
+            nextButton.disabled = stepIndex === steps.length - 1;
             
-            // Update progress
+            // Atualizar progresso
             const progress = ((stepIndex + 1) / steps.length) * 100;
             progressFill.style.width = `${progress}%`;
             progressText.textContent = `${Math.round(progress)}%`;
             
-            // Update counters
+            // Atualizar contadores
             stepCounter.textContent = `Passo ${stepIndex + 1} de ${steps.length}`;
             completedSteps.textContent = stepIndex;
             
-            // Update status
+            // Atualizar status
             if (stepIndex === 0) {
                 stepStatus.textContent = 'Início';
-                stepStatus.className = 'text-xs font-medium text-sky-600 bg-sky-100 px-2 py-1 rounded-full';
+                stepStatus.className = 'text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full';
             } else if (stepIndex === steps.length - 1) {
                 stepStatus.textContent = 'Final';
-                stepStatus.className = 'text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full';
+                stepStatus.className = 'text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded-full';
             } else {
                 stepStatus.textContent = 'Ativo';
-                stepStatus.className = 'text-xs font-medium text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full';
+                stepStatus.className = 'text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full';
             }
 
-            // Update sidebar indicators
+            // Atualizar sidebar
             Array.from(stepSidebar.children).forEach((item, index) => {
                 const numberEl = item.querySelector('.flex-shrink-0');
                 
-                item.classList.remove('active', 'completed', 'todo');
-                numberEl.classList.remove('bg-sky-600', 'text-white', 'bg-emerald-100', 'text-emerald-800', 'bg-gray-200');
+                // Resetar classes
+                item.classList.remove('bg-blue-50', 'border-blue-500', 'bg-gray-50');
+                numberEl.classList.remove('bg-blue-600', 'text-white', 'bg-green-100', 'text-green-800', 'bg-gray-200');
                 
-                if (index < stepIndex) {
-                    item.classList.add('completed');
-                    numberEl.classList.add('bg-emerald-100', 'text-emerald-800');
-                } else if (index === stepIndex) {
-                    item.classList.add('active');
-                    numberEl.classList.add('bg-sky-600', 'text-white');
+                if (index === stepIndex) {
+                    // Item ativo
+                    item.classList.add('bg-blue-50', 'border-blue-500');
+                    numberEl.classList.add('bg-blue-600', 'text-white');
+                } else if (index < stepIndex) {
+                    // Item concluído
+                    numberEl.classList.add('bg-green-100', 'text-green-800');
                 } else {
-                    item.classList.add('todo');
+                    // Item pendente
                     numberEl.classList.add('bg-gray-200');
                 }
             });
             
-            // Scroll active item into view
+            // Scroll para o item ativo
             const activeItem = stepSidebar.children[stepIndex];
             if (activeItem) {
                 activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        prevButton.addEventListener('click', () => currentStep > 0 && updateStep(currentStep - 1));
-        nextButton.addEventListener('click', () => currentStep < steps.length - 1 && updateStep(currentStep + 1));
-        restartButton.addEventListener('click', () => updateStep(0));
+        // Event listeners
+        prevButton.addEventListener('click', () => {
+            if (currentStep > 0) {
+                updateStep(currentStep - 1);
+            }
+        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            createStepSidebar();
+        nextButton.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                updateStep(currentStep + 1);
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
             updateStep(0);
         });
 
-        // Keyboard navigation
+        // Navegação por teclado
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft' && currentStep > 0) {
                 updateStep(currentStep - 1);
             } else if (e.key === 'ArrowRight' && currentStep < steps.length - 1) {
                 updateStep(currentStep + 1);
-            } else if (e.key === 'Home') {
-                updateStep(0);
-            } else if (e.key === 'End') {
-                updateStep(steps.length - 1);
             }
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            createStepSidebar();
+            updateStep(0);
         });
     </script>
 </body>
