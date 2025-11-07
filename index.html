@@ -209,9 +209,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                                 <p class="text-lg font-medium text-gray-500">Imagem do tutorial</p>
-                                <p class="text-sm text-gray-400 mt-2">A imagem será carregada aqui</p>
+                                <p class="text-sm text-gray-400 mt-2" id="image-path-info"></p>
                             </div>
-                            <img id="step-image" src="" alt="" class="step-image hidden" onerror="handleImageError(this)">
+                            <img id="step-image" src="" alt="" class="step-image hidden">
                         </div>
 
                         <!-- Description -->
@@ -258,225 +258,250 @@
     </main>
 
     <script>
-        // Configuração das etapas - SEM IMAGENS por enquanto
+        // =============================================
+        // CONFIGURAÇÃO DOS CAMINHOS DAS IMAGENS
+        // =============================================
+        
+        // Função para detectar se está no GitHub Pages e retornar o caminho correto
+        function getImagePath(imageName) {
+            // Verifica se está no GitHub Pages
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            
+            if (isGitHubPages) {
+                // No GitHub Pages - usa caminho absoluto
+                const repoName = window.location.pathname.split('/')[1];
+                if (repoName) {
+                    return `/${repoName}/imagens/${imageName}`;
+                }
+                return `/imagens/${imageName}`;
+            } else {
+                // Localmente - usa caminho relativo
+                return `imagens/${imageName}`;
+            }
+        }
+
+        // Array de etapas com nomes reais das imagens
         const steps = [
             {
                 title: "TechDay - SENAI São Carlos",
                 description: "Bem-vindo ao TechDay 2025 do SENAI São Carlos! Este tutorial guiará você na criação de seu primeiro projeto de Realidade Aumentada.",
-                image: "imagens/imagem0.jpg"
+                image: "imagem0.jpg"
             },
             {
                 title: "Realidade Aumentada",
                 description: "Introdução ao conceito de Realidade Aumentada - tecnologia que combina elementos virtuais com o mundo real em tempo real.",
-                image: "imagens/imagem0.jpg"
+                image: "imagem01.jpg"
             },
             {
                 title: "SENAI - Prof. Luciano Trevisan",
                 description: "Apresentação do professor responsável pelo tutorial de Realidade Aumentada no TechDay 2025.",
-                image: "imagens/imagem0.jpg"
+                image: "imagem79.JPG"
             },
             {
                 title: "Software - Editor 3D",
                 description: "OpenSpace3D - Editor para Realidade Aumentada<br>Site: https://www.openspace3d.com/",
-                image: "imagens/imagem0.jpg"
+                image: "imagem03.jpg"
+            },
             {
                 title: "Interface do OpenSpace3D",
                 description: "Conhecendo a interface: cena ou palco com três ambientes representados por nós (Cinemática, Câmera e Luz)",
-                image: "imagens/imagem0.jpg"
+                image: "imagem1.png"
             },
             {
                 title: "Importando uma Cena",
                 description: "OpenSpace3D Editor: 1.87.0<br>Formatos suportados: Formatos padrão (3D, dae, obj, fbx, scene), Biblioteca OpenSpace3D, Projeto OpenSpace3D, Modelo dinâmico",
-                image: null
+                image: "imagem2.jpg"
             },
             {
                 title: "Seleção do Formato",
                 description: "Importação de cena - Selecionar formato de arquivo padrão (3D_dae, obj_flox, scene...) e clicar em Próxima<br>Caminho: C:\\Program Files\\Scol Voyager\\Partition_LockedApp\\assets\\models\\library",
-                image: null
+                image: "imagem3.jpg"
             },
             {
                 title: "Acessando Pasta de Modelos",
                 description: "Navegando para a pasta: Kingdom_Animalia\\Rabbit",
-                image: null
+                image: "imagem4.jpg"
             },
             {
                 title: "Selecionando Modelo Coelho",
                 description: "Após selecionar o modelo coelho, clique em abrir",
-                image: null
+                image: "imagem2222.png"
             },
             {
                 title: "Pastas de Recursos",
                 description: "Importação da cena: Selecionar pastas de recursos para assets/models/library/Kingdom_Animalia/Rabbit/Coelho.mesh (bitmaps, shaders, programa, esqueleto...)",
-                image: null
+                image: "imagem06.jpg"
             },
             {
                 title: "Arquivos de Programa e Material",
                 description: "Selecionar arquivos de programa e material para coelho.mesh<br>Adicionar script ou remover script conforme necessário<br>Clicar em Importação",
-                image: null
+                image: "imagem07.jpg"
             },
             {
                 title: "Cena Importada",
                 description: "Foi inserido a cena coelho e também visualizamos o objeto coelho",
-                image: null
+                image: "imagem08.jpg"
             },
             {
                 title: "Estrutura da Cena",
                 description: "Estrutura de cena com:<br>- Cinematica<br>- default_camera<br>- default_light<br>- Coelho #1<br>- Estrutura do esqueleto com movimentos",
-                image: null
+                image: "imagem09.jpg"
             },
             {
                 title: "Ativando Loop de Animação",
                 description: "Clique com o botão direito no skeletal para ativar o loop de repetição dos movimentos do objeto<br>Laço habilitado - movimento executa continuamente",
-                image: null
+                image: "imagem10.jpg"
             },
             {
                 title: "Menu de Contexto - Scene",
                 description: "Clique com o botão direito em Scene para acessar opções:<br>- Adicionar um nó<br>- Adicionar objetos, câmeras, luzes<br>- Configurações de render",
-                image: null
+                image: "imagem11.jpg"
             },
             {
                 title: "Criando Novo Nó",
                 description: "Janela para criação de novo nó<br>Nome: dummy<br>Clicar em OK para confirmar",
-                image: null
+                image: "imagem12.jpg"
             },
             {
                 title: "Estrutura com Dummy",
                 description: "Estrutura de cena atualizada com dummy #3<br>Agora vamos mover o coelho para dentro do dummy",
-                image: null
+                image: "imagem13.jpg"
             },
             {
                 title: "Confirmando Movimento",
                 description: "Atenção: Tem certeza que quer passar 1.Coelho como o filho de 3.dummy?<br>Clicar em OK para confirmar",
-                image: null
+                image: "imagem17.jpg"
             },
             {
                 title: "Aba Scene - Programação Visual",
                 description: "Agora clique duas vezes no objeto Scene para acessar a área de programação visual",
-                image: null
+                image: "imagem14.jpg"
             },
             {
                 title: "Menu de Plugins - AR Capture",
                 description: "Clique com botão direito do mouse e vamos inserir um AR capture dentro Scene<br>Navegar em Dispositivo > AR capture",
-                image: null
+                image: "imagem201.jpg"
             },
             {
                 title: "Configurações AR Capture",
                 description: "Edit AR capture:<br>- Índice dispositivo: 0<br>- Resolução da webcam: 540x480<br>- Desmarcar Modo espelho<br>- Clicar em Aplicar e OK",
-                image: null
+                image: "imagem210.jpg"
             },
             {
                 title: "Teste Inicial",
                 description: "Agora testar, clicando no botão Play (indicado em vermelho)",
-                image: null
+                image: "imagem21.jpg"
             },
             {
                 title: "Resultado do Teste",
                 description: "Como resposta do teste, podemos ver o coelho junto com a projeção da WebCam",
-                image: null
+                image: "imagem22.jpg"
             },
             {
                 title: "Adicionando AR Marker",
                 description: "Agora vamos adicionar um marcador AR marker<br>Navegar em Dispositivo > AR marker",
-                image: null
+                image: "imagem23.jpg"
             },
             {
                 title: "Configurações AR Marker",
                 description: "Edit AR marker:<br>- Marcador ID: 0<br>- Registrar marcador<br>- Configurar objeto associado",
-                image: null
+                image: "imagem24.jpg"
             },
             {
                 title: "Registro do Marcador",
                 description: "Após escolha do ID, clique em Registre-se e salve o seu marcador",
-                image: null
+                image: "imagem25.jpg"
             },
             {
                 title: "Configurações Avançadas Marker",
                 description: "Importante deixar ativo na inicialização:<br>- Ativar na inicialização<br>- Habilitar rastreamento marcador na inicialização",
-                image: null
+                image: "imagem26.jpg"
             },
             {
                 title: "Associando com Dummy",
                 description: "Configurar AR marker com dummy:<br>- Nome do l'objeto: 3.dummy<br>- Marcar opções de inicialização<br>- Clicar em Aplicar e OK",
-                image: null
+                image: "imagem27.jpg"
             },
             {
                 title: "Preparando Marcador para Impressão",
                 description: "Vamos utilizar o Word para preparar o nosso marcador para a impressão. Inserir o marcador no local que salvamos no registro do marcador.",
-                image: null
+                image: "imagem28.jpg"
             },
             {
                 title: "Adicionando Objeto Hide",
                 description: "Agora vamos inserir um Objeto – Hide para visualização através do nosso marcador<br>Navegar em Objetos > Hide",
-                image: null
+                image: "imagem29.jpg"
             },
             {
                 title: "Configurações Hide",
                 description: "Edit hide:<br>- Nome de origem: 3.dummy<br>- Marcar 'Esconder na inicialização'<br>- Clicar em Aplicar e OK",
-                image: null
+                image: "imagem30.png"
             },
             {
                 title: "Programação Visual - Found",
                 description: "Passo 1 - Clique botão direito no AR marker, selecione Found<br>Passo 2 - Ligar com objeto Hide selecionando Show",
-                image: null
+                image: "imagem31.jpg"
             },
             {
                 title: "Programação Visual - Lost",
                 description: "Passo 1 - Clique botão direito no AR marker, selecione Lost<br>Passo 2 - Ligar com objeto Hide selecionando Hide",
-                image: null
+                image: "imagem321.jpg"
             },
             {
                 title: "Teste Final",
                 description: "Agora testar, clicando no botão Play novamente",
-                image: null
+                image: "imagem322.jpg"
             },
             {
                 title: "Resultado da Programação",
                 description: "Após programado os eventos, inicie a câmera e o coelho não é exibido na tela",
-                image: null
+                image: "imagem323.jpg"
             },
             {
                 title: "Teste com Marcador",
                 description: "Agora aponte o marcador e conseguimos visualizar o coelho",
-                image: null
+                image: "imagem324.jpg"
             },
             {
                 title: "Ajuste de Escala",
                 description: "Ajustando a escala de visualização do coelho em 30%<br>Acessar: Botão direito no dummy > Ajuste de escala",
-                image: null
+                image: "imagem325.jpg"
             },
             {
                 title: "Resultado do Ajuste",
                 description: "Tamanho do objeto após o ajuste de escala",
-                image: null
+                image: "imagem326.jpg"
             },
             {
                 title: "Configurações do Projeto",
                 description: "Configurações do projeto:<br>- Nome: Coelho<br>- Versão: 1.000<br>- Idioma: portuguese-Brazil<br>- Configurações de tela",
-                image: null
+                image: "imagem327.jpg"
             },
             {
                 title: "Salvando o Projeto",
                 description: "Salvar projeto (Ctrl + S)<br>Escolher ou criar uma pasta para salvar o projeto",
-                image: null
+                image: "imagem328.jpg"
             },
             {
                 title: "Exportando o Projeto",
                 description: "Exportar para o player OpenSpace3D (Ctrl + E)<br>Opções: Windows, Linux, Raspberry Pi, MacOS, Android, iOS, Oculus Mobile<br>Sempre exportar o pacote de projeto OpenSpace3D",
-                image: null
+                image: "imagem329.jpg"
             },
             {
                 title: "Tipos de Exportação",
                 description: "Tipos de exportação suportados pelo OpenSpace3D",
-                image: null
+                image: "imagem329.jpg"
             },
             {
                 title: "Departamento Regional SP",
                 description: "DEPARTAMENTO REGIONAL: DE SÃO PAULO<br>www.sp.senai.br",
-                image: null
+                image: "imagem330.jpg"
             }
         ];
 
-        // Variáveis globais
+        // =============================================
+        // VARIÁVEIS GLOBAIS
+        // =============================================
         let currentStep = 0;
         const stepSidebar = document.getElementById('step-sidebar');
         const stepImage = document.getElementById('step-image');
@@ -492,12 +517,24 @@
         const completedSteps = document.getElementById('completed-steps');
         const totalSteps = document.getElementById('total-steps');
         const imagePlaceholder = document.getElementById('image-placeholder');
+        const imagePathInfo = document.getElementById('image-path-info');
 
-        // Função para tratar erro de imagem
-        function handleImageError(img) {
-            console.log('Imagem não carregada:', img.src);
-            img.classList.add('hidden');
-            imagePlaceholder.classList.remove('hidden');
+        // =============================================
+        // FUNÇÕES PRINCIPAIS
+        // =============================================
+
+        // Função para carregar imagem com tratamento de erro
+        function loadImage(imagePath, imageElement) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    resolve(true);
+                };
+                img.onerror = () => {
+                    resolve(false);
+                };
+                img.src = imagePath;
+            });
         }
 
         // Função para criar a sidebar
@@ -529,7 +566,7 @@
         }
 
         // Função para atualizar a etapa atual
-        function updateStep(stepIndex) {
+        async function updateStep(stepIndex) {
             currentStep = stepIndex;
             const step = steps[stepIndex];
             
@@ -539,12 +576,26 @@
             
             // Gerenciar imagem
             if (step.image) {
-                stepImage.src = step.image;
-                stepImage.classList.remove('hidden');
-                imagePlaceholder.classList.add('hidden');
+                const imagePath = getImagePath(step.image);
+                imagePathInfo.textContent = `Caminho: ${imagePath}`;
+                
+                // Tentar carregar a imagem
+                const imageLoaded = await loadImage(imagePath, stepImage);
+                
+                if (imageLoaded) {
+                    stepImage.src = imagePath;
+                    stepImage.classList.remove('hidden');
+                    imagePlaceholder.classList.add('hidden');
+                    console.log('✅ Imagem carregada:', imagePath);
+                } else {
+                    stepImage.classList.add('hidden');
+                    imagePlaceholder.classList.remove('hidden');
+                    console.log('❌ Imagem não encontrada:', imagePath);
+                }
             } else {
                 stepImage.classList.add('hidden');
                 imagePlaceholder.classList.remove('hidden');
+                imagePathInfo.textContent = 'Sem imagem para esta etapa';
             }
             
             // Atualizar navegação
@@ -600,7 +651,10 @@
             }
         }
 
-        // Event listeners
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
         prevButton.addEventListener('click', () => {
             if (currentStep > 0) {
                 updateStep(currentStep - 1);
@@ -626,8 +680,14 @@
             }
         });
 
-        // Inicializar
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('🌐 Ambiente:', window.location.hostname.includes('github.io') ? 'GitHub Pages' : 'Local');
+            console.log('📁 Caminho base:', getImagePath('test.jpg'));
+            
             createStepSidebar();
             updateStep(0);
         });
